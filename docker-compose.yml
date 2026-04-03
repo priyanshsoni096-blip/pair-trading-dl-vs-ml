@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  pair-trading:
+    build: .
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./data:/app/data
+      - ./notebooks:/app/notebooks
+    environment:
+      - PYTHONPATH=/app/src
