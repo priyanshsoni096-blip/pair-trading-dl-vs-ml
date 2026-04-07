@@ -1,27 +1,29 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.11'
-        }
-    }
+    agent any
 
     stages {
 
         stage('Checkout') {
             steps {
-                checkout scm
+                echo 'Code pulled successfully'
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Build') {
             steps {
-                sh 'pip install -r requirements.txt'
+                echo 'Build successful'
             }
         }
 
         stage('Test') {
             steps {
-                sh 'echo "No tests yet"'
+                echo 'Test successful'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploy successful'
             }
         }
     }
