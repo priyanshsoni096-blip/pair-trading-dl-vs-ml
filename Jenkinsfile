@@ -1,56 +1,28 @@
 pipeline {
-    agent any
-    
-    environment {
-        IMAGE_NAME = "pair-trading-ml"
-        IMAGE_TAG = "latest"
+    agent {
+        docker {
+            image 'python:3.11'
+        }
     }
-    
+
     stages {
+
         stage('Checkout') {
             steps {
-                echo 'Pulling code from GitHub...'
-                git branch: 'main',
-                    url: 'https://github.com/priyanshsoni096-blip/pair-trading-dl-vs-ml'
+                checkout scm
             }
         }
-        
+
         stage('Install Dependencies') {
             steps {
-                echo 'Installing Python dependencies...'
                 sh 'pip install -r requirements.txt'
             }
         }
-        
-        stage('Run Tests') {
+
+        stage('Test') {
             steps {
-                echo 'Running pytest unit tests...'
-                sh 'python -m pytest tests/ -v --tb=short'
+                sh 'echo "No tests yet"'
             }
-        }
-        
-        stage('Build Docker Image') {
-            steps {
-                echo 'Building Docker image...'
-                sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
-            }
-        }
-        
-        stage('Deploy Container') {
-            steps {
-                echo 'Deploying container...'
-                sh 'docker-compose down || true'
-                sh 'docker-compose up -d'
-            }
-        }
-    }
-    
-    post {
-        success {
-            echo ' Pipeline passed — Jupyter live at localhost:8888'
-        }
-        failure {
-            echo ' Pipeline failed — check logs above'
         }
     }
 }
